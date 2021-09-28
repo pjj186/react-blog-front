@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import palette from "../../lib/styles/palette";
 import Button from "../common/Button";
+// 프레젠테이셔널 컴포넌트
 
 // 회원가입, 로그인 폼
 
@@ -57,22 +58,26 @@ const textMap = {
   register: "회원가입",
 };
 
-const AuthForm = ({ type }) => {
+const AuthForm = ({ type, form, onChange, onSubmit }) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
-      <form>
+      <form onSubmit={onSubmit}>
         <StyledInput
           autoComplete="username"
           name="username"
           placeholder="아이디"
+          onChange={onChange}
+          value={form.username}
         />
         <StyledInput
           autoComplete="new-password"
           name="password"
           placeholder="비밀번호"
           type="password"
+          onChange={onChange}
+          value={form.password}
         />
         {type === "register" && (
           <StyledInput
@@ -80,6 +85,8 @@ const AuthForm = ({ type }) => {
             name="passwordConfirm"
             placeholder="비밀번호 확인"
             type="password"
+            onChange={onChange}
+            value={form.passwordConfirm}
           />
         )}
         <ButtonWithMarginTop cyan={true} fullWidth={true}>

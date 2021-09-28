@@ -1,4 +1,5 @@
 // 색상을 사용할 때 쉽게 뽑아서 쓸 수 있도록 만든 색상 팔레트 파일
+// https://yeun.github.io/open-color/
 
 const palette = {
   gray: [

@@ -13,10 +13,11 @@ export default function createRequestSaga(type, request) {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
 
+  // 디스패치 : put
   return function* (action) {
     yield put(startLoading(type)); // 로딩 시작
     try {
-      const response = yield call(request, action.payload);
+      const response = yield call(request, action.payload); // payload = {username, password}
       yield put({
         // put : 디스패치
         type: SUCCESS,

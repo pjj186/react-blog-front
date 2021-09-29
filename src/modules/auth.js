@@ -1,6 +1,10 @@
 import { createAction, handleActions } from "redux-actions";
-import { createRequestActionTypes } from "../lib/createRequestSaga";
+import createRequestSaga, {
+  createRequestActionTypes,
+} from "../lib/createRequestSaga";
 import produce from "immer";
+import { takeLatest } from "redux-saga/effects"; // 사가를 실행해주는 핵심
+import * as authAPI from "../lib/api/auth";
 
 // 액션 타입
 const CHANGE_FIELD = "auth/CHANGE_FIELD";
@@ -27,6 +31,22 @@ export const changeField = createAction(
 );
 
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form); // register, login
+export const register = createAction(REGISTER, ({ username, password }) => ({
+  username,
+  password,
+}));
+export const login = createAction(LOGIN, ({ username, password }) => ({
+  username,
+  password,
+}));
+
+// 사가 생성
+const registerSaga = createRequestSaga(REGISTER, authAPI.register);
+const loginSaga = createRequestSaga(LOGIN, authAPI.login);
+export function* authSaga() {
+  yield takeLatest(REGISTER, registerSaga);
+  yield takeLatest(LOGIN, loginSaga);
+}
 
 // 이 모듈의 state
 const initialState = {
@@ -40,6 +60,8 @@ const initialState = {
     username: "",
     password: "",
   },
+  auth: null,
+  authError: null,
 };
 
 // 리듀서
@@ -52,6 +74,29 @@ const auth = handleActions(
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
+      authError: null, // 폼 전환 시 회원 인증 에러 초기화
+    }),
+    // 회원가입 성공
+    [REGISTER_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    // 회원가입 실패
+    [REGISTER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
+    }),
+    // 로그인 성공
+    [LOGIN_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      authError: null,
+      auth,
+    }),
+    // 로그인 실패
+    [LOGIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      authError: error,
     }),
   },
   initialState

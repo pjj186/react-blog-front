@@ -1,6 +1,13 @@
 import { call, put } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../modules/loading";
 
+export const createRequestActionTypes = (type) => {
+  // 액션타입 세 개를 한꺼번에 만드는 함수
+  const SUCCESS = `${type}_SUCCESS`;
+  const FAILURE = `${type}_FAILURE`;
+  return [type, SUCCESS, FAILURE];
+};
+
 export default function createRequestSaga(type, request) {
   // type : REGISTER, LOGIN
   const SUCCESS = `${type}_SUCCESS`;

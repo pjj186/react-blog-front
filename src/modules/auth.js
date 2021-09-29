@@ -1,9 +1,18 @@
 import { createAction, handleActions } from "redux-actions";
+import { createRequestActionTypes } from "../lib/createRequestSaga";
 import produce from "immer";
 
 // 액션 타입
 const CHANGE_FIELD = "auth/CHANGE_FIELD";
 const INITIALIZE_FORM = "auth/INITIALIZE_FORM";
+
+// REGISTER 액션 타입
+const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
+  createRequestActionTypes("auth/REGISTER");
+
+// LOGIN 액션 타입
+const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
+  createRequestActionTypes("auth/LOGIN");
 
 // 액션 생성 함수
 // createAction을 사용함으로써 객체를 리턴하는 대신, 간단하게 액션 생성 함수 만들기

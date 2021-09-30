@@ -1,5 +1,6 @@
 import { call, put } from "redux-saga/effects";
 import { startLoading, finishLoading } from "../modules/loading";
+// API 요청 및 로딩 등 비동기 작업을 담당하는 파일
 
 export const createRequestActionTypes = (type) => {
   // 액션타입 세 개를 한꺼번에 만드는 함수

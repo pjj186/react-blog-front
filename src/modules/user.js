@@ -16,6 +16,8 @@ export const tempSetUser = createAction(TEMP_SET_USER, (user) => user);
 export const check = createAction(CHECK);
 
 const checkSaga = createRequestSaga(CHECK, authAPI.check);
+
+// 제너레이터 함수
 export function* userSaga() {
   yield takeLatest(CHECK, checkSaga);
 }

@@ -10,6 +10,7 @@ import { withRouter } from "react-router-dom";
 // connect 함수 없이 디스패치와, state를 조회할 수 있다.
 const RegisterForm = ({ history }) => {
   const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
   // auth <= state.auth
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -18,6 +19,7 @@ const RegisterForm = ({ history }) => {
     authError: auth.authError,
     user: user.user,
   }));
+
   // 인풋 변경 이벤트 핸들러
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -34,15 +36,15 @@ const RegisterForm = ({ history }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { username, password, passwordConfirm } = form;
-    if ([username, password, passwordConfirm].includes(" ")) {
+    if ([username, password, passwordConfirm].includes("")) {
       setError("빈 칸을 모두 입력하세요.");
       return;
     }
     if (password !== passwordConfirm) {
       setError("비밀번호가 일치하지 않습니다.");
-      dispatch(changeField({ form: "register", key: "password", value: " " }));
+      dispatch(changeField({ form: "register", key: "password", value: "" }));
       dispatch(
-        changeField({ form: "register", key: "passwordConfirm", value: " " })
+        changeField({ form: "register", key: "passwordConfirm", value: "" })
       );
       return;
     }
@@ -58,14 +60,16 @@ const RegisterForm = ({ history }) => {
   useEffect(() => {
     if (authError) {
       // 계정명이 이미 존재할 때
-      if (authError.response.status === 400) {
+      if (authError.response.status === 409) {
         setError("이미 존재하는 계정명입니다.");
         return;
       }
       // 기타 이유
       setError("회원가입 실패");
+      console.log(authError);
       return;
     }
+
     if (auth) {
       console.log("회원가입 성공");
       console.log(auth);

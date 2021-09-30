@@ -16,6 +16,7 @@ export default function createRequestSaga(type, request) {
 
   // 디스패치 : put
   return function* (action) {
+    // 액션 생성자를 디스패치하면 그 액션정보가 여기 있는 action에 들어온다고 생각!
     yield put(startLoading(type)); // 로딩 시작
     try {
       // request는 API 요청 함수가 들어가는데, 이 함수의 반환값은 reponse(성공), error(실패) 두 가지로 나뉜다.

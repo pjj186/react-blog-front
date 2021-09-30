@@ -30,6 +30,7 @@ export const changeField = createAction(
   })
 );
 
+// 액션 생성자 (디스패치 받고싶은 애들)
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form); // register, login
 export const register = createAction(REGISTER, ({ username, password }) => ({
   username,

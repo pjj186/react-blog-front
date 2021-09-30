@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, initializeForm, register } from "../../modules/auth";
 import AuthForm from "../../components/auth/AuthForm";
@@ -9,6 +9,7 @@ import { withRouter } from "react-router-dom";
 // react-redux 라이브러리의 useDispatch 와 useSelector Hook을 사용하면
 // connect 함수 없이 디스패치와, state를 조회할 수 있다.
 const RegisterForm = ({ history }) => {
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   // auth <= state.auth
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -33,8 +34,16 @@ const RegisterForm = ({ history }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const { username, password, passwordConfirm } = form;
+    if ([username, password, passwordConfirm].includes(" ")) {
+      setError("빈 칸을 모두 입력하세요.");
+      return;
+    }
     if (password !== passwordConfirm) {
-      // 에러
+      setError("비밀번호가 일치하지 않습니다.");
+      dispatch(changeField({ form: "register", key: "password", value: " " }));
+      dispatch(
+        changeField({ form: "register", key: "passwordConfirm", value: " " })
+      );
       return;
     }
     dispatch(register({ username, password })); // 액션 디스패치
@@ -48,8 +57,13 @@ const RegisterForm = ({ history }) => {
   // 회언가입 성공/실패 처리
   useEffect(() => {
     if (authError) {
-      console.log("오류 발생");
-      console.log(authError);
+      // 계정명이 이미 존재할 때
+      if (authError.response.status === 400) {
+        setError("이미 존재하는 계정명입니다.");
+        return;
+      }
+      // 기타 이유
+      setError("회원가입 실패");
       return;
     }
     if (auth) {
@@ -72,6 +86,7 @@ const RegisterForm = ({ history }) => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      error={error}
     />
   );
 };

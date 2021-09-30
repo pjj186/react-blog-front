@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField, initializeForm, login } from "../../modules/auth";
 import AuthForm from "../../components/auth/AuthForm";
@@ -10,6 +10,7 @@ import { check } from "../../modules/user";
 // react-redux 라이브러리의 useDispatch 와 useSelector Hook을 사용하면
 // connect 함수 없이 디스패치와, state를 조회할 수 있다.
 const LoginForm = ({ history }) => {
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   // useSelector에 들어가는 auth, user는 rootReducer에 바인드된 리듀서임!
   const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
@@ -46,6 +47,7 @@ const LoginForm = ({ history }) => {
     if (authError) {
       console.log("오류 발생");
       console.log(authError);
+      setError("로그인 실패");
       return;
     }
     if (auth) {
@@ -66,6 +68,7 @@ const LoginForm = ({ history }) => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      error={error}
     />
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { withRouter } from "react-router-dom";
 import palette from "../../lib/styles/palette";
 
 const StyledButton = styled.button`
@@ -36,7 +37,17 @@ const StyledButton = styled.button`
     `}
 `;
 
-// {...props} 를 StyledButton에 설정해주었는데, 이는 Button이 받아오는 props를 모두 StyledButton에 전달한다는 의미
-const Button = (props) => <StyledButton {...props} />;
+const Button = ({ to, history, ...rest }) => {
+  const onClick = (e) => {
+    // to가 있다면 to로 페이지 이동
+    if (to) {
+      history.push(to);
+    }
+    if (rest.onClick) {
+      rest.onClick(e);
+    }
+  };
+  return <StyledButton {...rest} onClick={onClick} />;
+};
 
-export default Button;
+export default withRouter(Button);

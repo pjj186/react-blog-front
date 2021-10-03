@@ -45,6 +45,7 @@ const LoginForm = ({ history }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    // 1
     if (authError) {
       console.log("오류 발생");
       console.log(authError);
@@ -58,9 +59,15 @@ const LoginForm = ({ history }) => {
   }, [auth, authError, dispatch]);
 
   useEffect(() => {
+    // 2
     if (user) {
       // user 데이터는 check()함수를 디스패치 한 후 할당되는 데이터
       history.push("/");
+      try {
+        localStorage.setItem("user", JSON.stringify(user));
+      } catch (e) {
+        console.log("localStorage is not working");
+      }
     }
   }, [history, user]);
   return (

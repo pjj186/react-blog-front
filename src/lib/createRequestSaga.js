@@ -26,6 +26,7 @@ export default function createRequestSaga(type, request) {
         // put : 디스패치
         type: SUCCESS,
         payload: response.data,
+        meta: response, // meta 값을 response로 넣어주면 나중에 HTTP 헤더 및 상태 코드를 쉽게 조회
       });
     } catch (e) {
       yield put({

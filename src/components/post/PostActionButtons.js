@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import palette from "../../lib/styles/palette";
 import AskRemoveModal from "./AskRemoveModal";
@@ -23,7 +23,6 @@ const ActionButton = styled.button`
     background: ${palette.gray[1]};
     color: ${palette.cyan[7]};
   }
-
   & + & {
     margin-left: 0.25rem;
   }
@@ -41,6 +40,7 @@ const PostActionButtons = ({ onEdit, onRemove }) => {
     setModal(false);
     onRemove();
   };
+
   return (
     <>
       <PostActionButtonsBlock>

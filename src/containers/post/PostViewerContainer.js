@@ -22,7 +22,7 @@ const PostViewerContainer = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(readPost(postId));
-    // 언마운트 될 때 리덕스에서 포스트 데이터 없애기
+    // 언마운트될 때 리덕스에서 포스트 데이터 없애기
     return () => {
       dispatch(unloadPost());
     };
@@ -51,7 +51,7 @@ const PostViewerContainer = ({ match, history }) => {
       error={error}
       actionButtons={
         ownPost && <PostActionButtons onEdit={onEdit} onRemove={onRemove} />
-      } // props로 컴포넌트를 전달
+      }
     />
   );
 };

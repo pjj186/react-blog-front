@@ -14,7 +14,6 @@ const Fullscreen = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const AskModalBlock = styled.div`
   width: 320px;
   background: white;
@@ -45,7 +44,7 @@ const AskModal = ({
   visible,
   title,
   description,
-  confirmText = " 확인",
+  confirmText = "확인",
   cancelText = "취소",
   onConfirm,
   onCancel,
